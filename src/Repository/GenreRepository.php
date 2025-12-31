@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class GenreRepository
+final class GenreRepository
 {
     private const array GENRES = [
         28 => "Action",

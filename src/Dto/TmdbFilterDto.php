@@ -5,7 +5,7 @@ namespace App\Dto;
 use App\Enum\MovieSort;
 use DateTimeImmutable;
 
-class TmdbFilterDto
+final readonly class TmdbFilterDto
 {
     public function __construct(
         public int $page = 1,

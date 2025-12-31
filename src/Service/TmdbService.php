@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Dto\MovieDto;
+use App\Dto\MovieResultDto;
 use App\Dto\ResultDto;
 use App\Dto\TmdbFilterDto;
 use App\Repository\GenreRepository;
@@ -16,14 +16,14 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-readonly class TmdbService
+final class TmdbService
 {
     public function __construct(
-        private HttpClientInterface $client,
-        private GenreRepository $genreRepository,
-        #[Autowire('%env(TMDB_ACCESS_TOKEN)%')] private string $apiToken,
-        #[Autowire('%env(TMDB_API_BASEURL)%')] private string $apiUrl,
-        #[Autowire('%env(TMDB_API_ENDPOINT_DISCOVER)%')] private string $searchKey,
+        private readonly HttpClientInterface $client,
+        private readonly GenreRepository $genreRepository,
+        #[Autowire('%env(TMDB_ACCESS_TOKEN)%')] private readonly string $apiToken,
+        #[Autowire('%env(TMDB_API_BASEURL)%')] private readonly string $apiUrl,
+        #[Autowire('%env(TMDB_API_ENDPOINT_DISCOVER)%')] private readonly string $searchKey,
     ) {
     }
 
@@ -57,11 +57,8 @@ readonly class TmdbService
         $data = $response->toArray() ?? [];
         $data['results'] = array_map(
             function (array $movie) use ($genres) {
-                $movieDto = MovieDto::fromArray($movie);
-                $genresData = array_intersect_key($genres, array_flip($movieDto->genreIds));
-                $movieDto->genres = array_values($genresData);
-
-                return $movieDto;
+                $genresData = array_intersect_key($genres, array_flip($movie['genre_ids']));
+                return MovieResultDto::fromArray($movie, array_values($genresData));
             },
             $data['results']
         );

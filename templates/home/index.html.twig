@@ -10,52 +10,57 @@
         <div class="">
 
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 font-mono">
+                {# @var movie \App\Dto\MovieResultDto #}
                 {% for movie in results.results %}
-                    <div
-                        class="relative group rounded overflow-hidden shadow-sm border border-gray-700 cursor-pointer">
-                        <div class="w-full overflow-hidden aspect-[2/3] bg-gray-800 relative">
-                            {% if movie.posterPath is null %}
-                                <img src="{{ asset('images/no-poster-placeholder.png') }}" alt="" class="opacity-40 ">
-                            {% else %}
-                                <img
-                                    src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}"
-                                    alt="Smooth load"
-                                    loading="lazy"
-                                    data-controller="image-loader"
-                                    data-action="load->image-loader#reveal"
-                                    class="opacity-0 transition-all ease-in-out w-full h-full object-cover transform duration-500 hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[4px]' }}"
-                                >
-                                {#                                <img src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}" alt="" #}
-                                {#                                     class="relative w-full h-full object-cover transform transition-transform duration-500 ease-out hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[3px]' }}"> #}
-                            {% endif %}
-
-
-                            <div
-                                class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition inset-shadow-sm inset-shadow-gray-900/50"></div>
-
-                        </div>
-
-                        <div>
-                            <div
-                                class="font-mono text-xl pb-2 my-2 mx-2 text-center font-bold border-b border-b-gray-700 ">
-                                {{ movie.title }}
-                            </div>
-
-                            <div class="mb-3 px-2">
-                                {% if movie.voteCount > 0 %}
-                                    <div class="text-nowrap text-center dark:text-pink-400 font-bold">
-                                        TMDB Rating: {{ movie.voteAverage|round(1) }}
-                                    </div>
+                    <a href="{{ path('app_movie', { 'id': movie.id }) }}" data-turbo-frame="_top">
+                        <div
+                            class="relative group rounded overflow-hidden shadow-sm border border-gray-700 cursor-pointer">
+                            <div class="w-full overflow-hidden aspect-[2/3] bg-gray-800 relative">
+                                {% if movie.posterPath is null %}
+                                    <img src="{{ asset('images/no-poster-placeholder.png') }}" alt=""
+                                         class="opacity-40 ">
+                                {% else %}
+                                    <img
+                                        src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}"
+                                        alt="Smooth load"
+                                        loading="lazy"
+                                        data-controller="image-loader"
+                                        data-action="load->image-loader#reveal"
+                                        class="opacity-0 transition-all ease-in-out w-full h-full object-cover transform duration-500 hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[4px]' }}"
+                                    >
+                                    {#                                <img src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}" alt="" #}
+                                    {#                                     class="relative w-full h-full object-cover transform transition-transform duration-500 ease-out hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[3px]' }}"> #}
                                 {% endif %}
 
-                                <div class="text-center font-bold">Release date: <span
-                                        class="text-nowrap">{{ movie.releaseDate|date('d-m-Y') }}</span></div>
 
-                                <div class="text-center">{{ movie.genres|join(" ") }}</div>
+                                <div
+                                    class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition inset-shadow-sm inset-shadow-gray-900/50"></div>
+
                             </div>
+
+                            <div>
+                                <div
+                                    class="font-mono text-xl pb-2 my-2 mx-2 text-center font-bold border-b border-b-gray-700 ">
+                                    {{ movie.title }}
+                                </div>
+
+                                <div class="mb-3 px-2">
+                                    {% if movie.voteCount > 0 %}
+                                        <div class="text-nowrap text-center dark:text-pink-400 font-bold">
+                                            TMDB Rating: {{ movie.voteAverage|round(1) }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="text-center font-bold">Release date: <span
+                                            class="text-nowrap">{{ movie.releaseDate|date('d-m-Y') }}</span></div>
+
+                                    <div class="text-center">{{ movie.genres|join(" ") }}</div>
+                                </div>
+                            </div>
+
                         </div>
 
-                    </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>

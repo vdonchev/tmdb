@@ -1,12 +1,13 @@
 framework:
     cache:
         # Unique name of your app: used to compute stable namespaces for cache keys.
-        #prefix_seed: your_vendor_name/app_name
+        prefix_seed: 'donchev/movies'
+        directory: '%kernel.cache_dir%/pools'
 
         # The "app" cache stores to the filesystem by default.
         # The data in this cache should persist between deploys.
         # Other options include:
-        app: cache.adapter.array
+        # app: cache.adapter.filesystem
 
         # Redis
         #app: cache.adapter.redis
@@ -18,3 +19,5 @@ framework:
         # Namespaced pools use the above "app" backend by default
         pools:
             tv.cache:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 3600

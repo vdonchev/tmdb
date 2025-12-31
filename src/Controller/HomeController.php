@@ -55,4 +55,10 @@ class HomeController extends AbstractController
             ['results' => $resultSet, 'page' => $page, 'list' => $list->value]
         );
     }
+
+    #[Route('/movie/{id}', name: 'app_movie', methods: ['GET'])]
+    public function movie(int $id): Response
+    {
+        dd($id);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-class ResultDto
+final readonly class ResultDto
 {
     public function __construct(
         public int $page,

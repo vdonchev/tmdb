@@ -10,11 +10,11 @@ use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-readonly class TmdbRepository
+final class TmdbRepository
 {
     public function __construct(
-        #[Target('tv.cache')] private CacheInterface $cache,
-        private TmdbService $tmdbService
+        #[Target('tv.cache')] private readonly CacheInterface $cache,
+        private readonly TmdbService $tmdbService
     ) {
     }
 
