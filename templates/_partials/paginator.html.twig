@@ -1,0 +1,38 @@
+<div class="flex flex-wrap items-center mb-4 justify-center" id="paginator">
+    {% if results.hasPreviousPage %}
+        <a href="{{ path('app_home', { 'list': list, 'page': page - 1 }) }}"
+           data-turbo-preload
+           data-turbo-frame="titles"
+           class="flex items-center me-3 text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-left">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M11 7l-5 5l5 5"/>
+                <path d="M17 7l-5 5l5 5"/>
+            </svg>
+
+            Предишна
+        </a>
+    {% endif %}
+
+    {% if results.hasNextPage %}
+        <a href="{{ path('app_home', { 'list': list, 'page': page + 1 }) }}"
+           data-turbo-preload
+           data-turbo-frame="titles"
+           class="flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+            <div>
+                Следваща
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 7l5 5l-5 5"/>
+                <path d="M13 7l5 5l-5 5"/>
+            </svg>
+        </a>
+    {% endif %}
+
+    <div class="mt-4 sm:mt-0 text-center w-full sm:w-auto sm:border-l sm:pl-4 sm:ml-4 column border-gray-700"><b>{{ page }}</b> От <b>{{ results.totalPages }}</b> Страници</div>
+</div>
