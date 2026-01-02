@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Dto;
+namespace App\Filter;
 
 use App\Enum\MovieSort;
 use DateTimeImmutable;
 
-final readonly class TmdbFilterDto
+final readonly class DiscoverFilter implements FilterInterface
 {
     public function __construct(
         public int $page = 1,
@@ -15,6 +15,7 @@ final readonly class TmdbFilterDto
         public bool $includeAdult = true,
         public bool $includeVideo = false,
         public string $language = 'en-US',
+        public array $withOriginalLanguage = ['en', 'bg'],
     ) {
     }
 
@@ -30,6 +31,7 @@ final readonly class TmdbFilterDto
             includeAdult: filter_var($data['include_adult'] ?? false, FILTER_VALIDATE_BOOL),
             includeVideo: filter_var($data['include_video'] ?? false, FILTER_VALIDATE_BOOL),
             language: (string)($data['language'] ?? 'en-US'),
+            withOriginalLanguage: $data['with_original_language'] ?? [],
         );
     }
 
@@ -43,6 +45,7 @@ final readonly class TmdbFilterDto
             'include_adult' => $this->includeAdult ? 'true' : 'false',
             'include_video' => $this->includeVideo ? 'true' : 'false',
             'language' => $this->language,
+            'with_original_language' => implode('|', $this->withOriginalLanguage),
         ], fn($value) => $value !== null);
     }
 }

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Dto\TmdbFilterDto;
 use App\Enum\ListType;
 use App\Enum\MovieSort;
+use App\Filter\CreditsFilter;
+use App\Filter\DiscoverFilter;
+use App\Filter\MovieFilter;
 use App\Repository\TmdbRepository;
 use DateTimeImmutable;
 use Psr\Cache\InvalidArgumentException;
@@ -46,19 +48,61 @@ class HomeController extends AbstractController
             ]
         };
 
-        $filter = new TmdbFilterDto(max(1, $page), $fromTo['gte'], $fromTo['lte'], MovieSort::PopularityDesc);
+        $filter = new DiscoverFilter(
+            max(1, $page),
+            $fromTo['gte'],
+            $fromTo['lte'],
+            MovieSort::PopularityDesc,
+            withOriginalLanguage: [
+                "en",
+                "fr",
+                "de",
+                "es",
+                "it",
+                "sv",
+                "da",
+                "no",
+                "nb",
+                "nn",
+                "fi",
+                "nl",
+                "pl",
+                "cs",
+                "sk",
+                "hu",
+                "ro",
+                "bg",
+                "el",
+                "pt",
+                "ja",
+                "ko"
+            ]
+        );
 
-        $resultSet = $this->movieRepository->getResults($filter, $list->value);
+        $results = $this->movieRepository->discoverMovies($filter, $list->value);
 
         return $this->render(
             'home/index.html.twig',
-            ['results' => $resultSet, 'page' => $page, 'list' => $list->value]
+            ['results' => $results, 'page' => $page, 'list' => $list->value]
         );
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     #[Route('/movie/{id}', name: 'app_movie', methods: ['GET'])]
-    public function movie(int $id): Response
+    public function movie(string $id): Response
     {
-        dd($id);
+        $movie = $this->movieRepository->getMovieDetails($id, MovieFilter::fromArray([]));
+
+        return $this->render('home/movie.html.twig', ['movie' => $movie]);
+    }
+
+    #[Route('/movie/{id}/creadits', name: 'app_credits', methods: ['GET'])]
+    public function credits(string $id): Response
+    {
+        $credits = $this->movieRepository->getMovieCredits($id, CreditsFilter::fromArray([]));
+
+        return $this->render('home/credits.html.twig', ['credits' => $credits]);
     }
 }

@@ -19,5 +19,5 @@ framework:
         # Namespaced pools use the above "app" backend by default
         pools:
             tv.cache:
-                adapter: cache.adapter.filesystem
+                adapter: cache.adapter.array
                 default_lifetime: 3600

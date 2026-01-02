@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Dto\CreditsDto;
+use App\Dto\MovieDto;
 use App\Dto\ResultDto;
-use App\Dto\TmdbFilterDto;
+use App\Filter\CreditsFilter;
+use App\Filter\DiscoverFilter;
+use App\Filter\MovieFilter;
 use App\Service\TmdbService;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Attribute\Target;
@@ -21,13 +25,39 @@ final class TmdbRepository
     /**
      * @throws InvalidArgumentException
      */
-    public function getResults(TmdbFilterDto $filter, string $type): ResultDto
+    public function discoverMovies(DiscoverFilter $filter, string $type): ResultDto
     {
         $key = 'movies_l' . $type . '_page' . $filter->page;
         return $this->cache->get($key, function (ItemInterface $item) use ($key, $filter) {
             $item->expiresAfter(3600);
 
-            return $this->tmdbService->queryApi($filter);
+            return $this->tmdbService->discoverMovies($filter);
+        });
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function getMovieDetails(string $movieId, MovieFilter $filter): MovieDto
+    {
+        $key = 'movie_id' . $movieId;
+        return $this->cache->get($key, function (ItemInterface $item) use ($movieId, $filter) {
+            $item->expiresAfter(3600);
+
+            return $this->tmdbService->getMovieDetails($movieId, $filter);
+        });
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function getMovieCredits(string $movieId, CreditsFilter $filter): CreditsDto
+    {
+        $key = 'credits_movie_id' . $movieId;
+        return $this->cache->get($key, function (ItemInterface $item) use ($movieId, $filter) {
+            $item->expiresAfter(null);
+
+            return $this->tmdbService->getMovieCredits($movieId, $filter);
         });
     }
 }

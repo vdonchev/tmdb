@@ -26,10 +26,8 @@
                                         loading="lazy"
                                         data-controller="image-loader"
                                         data-action="load->image-loader#reveal"
-                                        class="opacity-0 transition-all ease-in-out w-full h-full object-cover transform duration-500 hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[4px]' }}"
+                                        class="opacity-0 transition-all ease-in-out w-full h-full object-cover transform duration-500 hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[3px]' }}"
                                     >
-                                    {#                                <img src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}" alt="" #}
-                                    {#                                     class="relative w-full h-full object-cover transform transition-transform duration-500 ease-out hover:scale-120 hover:rotate-[5deg] {{ movie.adult ? 'blur-[3px]' }}"> #}
                                 {% endif %}
 
 
