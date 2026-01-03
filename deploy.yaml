@@ -42,6 +42,7 @@ tasks:
 
     assets:install_and_compile:
         - run: '{{ bin/console }} importmap:install'
+        - run: '{{ bin/console }} tailwind:build --minify'
         - run: '{{ bin/console }} asset-map:compile'
     npm:install:
         -   run: 'cd {{release_path}} && npm install'
