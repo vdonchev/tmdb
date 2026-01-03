@@ -1,0 +1,59 @@
+import:
+    - recipe/symfony.php
+
+config:
+    application: movies
+    repository: git@github.com:vdonchev/tournament-stats.git
+    branch: master
+    keep_releases: 3
+    allow_anonymous_stats: false
+    ssh_multiplexing: true
+    ssh_options:
+        - StrictHostKeyChecking=no
+
+    shared_files:
+        - .env.local
+
+    shared_dirs:
+        - var/log
+        - var/cache
+
+    writable_dirs:
+        - var
+        - var/log
+        - var/cache
+
+hosts:
+    prod:
+        hostname: 151.80.145.236
+        remote_user: ubuntu
+        forward_agent: true
+        deploy_path: /var/www/tv.donchev.be
+
+tasks:
+    php-fpm:reload:
+        - run: 'sudo systemctl reload php8.3-fpm.service'
+
+    database:migrate:
+        - run: '{{ bin/console }} doctrine:migrations:migrate --no-interaction'
+
+    clear:pool-cache:
+        - run: '{{ bin/console }} ca:po:cl cache.math --no-interaction'
+
+    assets:install_and_compile:
+        - run: '{{ bin/console }} importmap:install'
+        - run: '{{ bin/console }} asset-map:compile'
+    npm:install:
+        -   run: 'cd {{release_path}} && npm install'
+
+before:
+    deploy:symlink:
+        - database:migrate
+        - npm:install
+        - assets:install_and_compile
+
+after:
+    deploy:symlink:
+        - clear:pool-cache
+        - php-fpm:reload
+    deploy:failed: deploy:unlock

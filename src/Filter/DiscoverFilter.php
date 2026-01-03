@@ -16,6 +16,8 @@ final readonly class DiscoverFilter implements FilterInterface
         public bool $includeVideo = false,
         public string $language = 'en-US',
         public array $withOriginalLanguage = ['en', 'bg'],
+        public ?int $withRuntimeGte = null,
+        public ?int $withRuntimeLte = null,
     ) {
     }
 
@@ -32,6 +34,8 @@ final readonly class DiscoverFilter implements FilterInterface
             includeVideo: filter_var($data['include_video'] ?? false, FILTER_VALIDATE_BOOL),
             language: (string)($data['language'] ?? 'en-US'),
             withOriginalLanguage: $data['with_original_language'] ?? [],
+            withRuntimeGte: $data['with_runtime.gte'] ?? null,
+            withRuntimeLte: $data['with_runtime.lte'] ?? null,
         );
     }
 
@@ -46,6 +50,8 @@ final readonly class DiscoverFilter implements FilterInterface
             'include_video' => $this->includeVideo ? 'true' : 'false',
             'language' => $this->language,
             'with_original_language' => implode('|', $this->withOriginalLanguage),
+            'with_runtime.gte' => $this->withRuntimeGte,
+            'with_runtime.lte' => $this->withRuntimeLte,
         ], fn($value) => $value !== null);
     }
 }

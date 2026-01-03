@@ -10,6 +10,7 @@ use App\Filter\CreditsFilter;
 use App\Filter\DiscoverFilter;
 use App\Filter\MovieFilter;
 use App\Repository\TmdbRepository;
+use App\Service\ImdbScrapper;
 use DateTimeImmutable;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,17 @@ class HomeController extends AbstractController
     public function __construct(
         private readonly TmdbRepository $movieRepository,
     ) {
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
+    public function imdb(string $id, ImdbScrapper $scrapper): Response
+    {
+        $rating = $scrapper->getRating($id);
+
+        return $this->render('_turbo/imdb_rating.html.twig', ['rating' => $rating]);
     }
 
     /**
@@ -40,19 +52,20 @@ class HomeController extends AbstractController
         $fromTo = match ($list) {
             ListType::Upcomming => [
                 'gte' => new DateTimeImmutable(),
-                'lte' => new DateTimeImmutable('+14 days')
+                'lte' => new DateTimeImmutable('+30 days')
             ],
             ListType::Trending => [
-                'gte' => new DateTimeImmutable('-14 days'),
+                'gte' => new DateTimeImmutable('-30 days'),
                 'lte' => new DateTimeImmutable('-1 day')
             ]
         };
 
         $filter = new DiscoverFilter(
-            max(1, $page),
-            $fromTo['gte'],
-            $fromTo['lte'],
-            MovieSort::PopularityDesc,
+            page: max(1, $page),
+            primaryReleaseDateGte: $fromTo['gte'],
+            primaryReleaseDateLte: $fromTo['lte'],
+            sortBy: MovieSort::PopularityDesc,
+            includeAdult: false,
             withOriginalLanguage: [
                 "en",
                 "fr",
@@ -76,7 +89,8 @@ class HomeController extends AbstractController
                 "pt",
                 "ja",
                 "ko"
-            ]
+            ],
+            withRuntimeGte: 60
         );
 
         $results = $this->movieRepository->discoverMovies($filter, $list->value);
@@ -98,11 +112,11 @@ class HomeController extends AbstractController
         return $this->render('home/movie.html.twig', ['movie' => $movie]);
     }
 
-    #[Route('/movie/{id}/creadits', name: 'app_credits', methods: ['GET'])]
+    #[Route('/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
     public function credits(string $id): Response
     {
         $credits = $this->movieRepository->getMovieCredits($id, CreditsFilter::fromArray([]));
 
-        return $this->render('home/credits.html.twig', ['credits' => $credits]);
+        return $this->render('_turbo/credits.html.twig', ['credits' => $credits]);
     }
 }

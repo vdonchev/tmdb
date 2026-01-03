@@ -1,0 +1,7 @@
+framework:
+    cache:
+        pools:
+            cache.math:
+                adapter: cache.adapter.redis_tag_aware
+                provider: '%env(REDIS_URL)%'
+                default_lifetime: 0
