@@ -3,7 +3,7 @@ import:
 
 config:
     application: movies
-    repository: git@github.com:vdonchev/tournament-stats.git
+    repository: git@github.com:vdonchev/tmdb.git
     branch: master
     keep_releases: 3
     allow_anonymous_stats: false
