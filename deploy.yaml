@@ -38,7 +38,7 @@ tasks:
         - run: '{{ bin/console }} doctrine:migrations:migrate --no-interaction'
 
     clear:pool-cache:
-        - run: '{{ bin/console }} ca:po:cl cache.math --no-interaction'
+        - run: '{{ bin/console }} cache:pool:clear tv.cache --no-interaction'
 
     assets:install_and_compile:
         - run: '{{ bin/console }} importmap:install'
