@@ -48,7 +48,6 @@ tasks:
 
 before:
     deploy:symlink:
-        - database:migrate
         - npm:install
         - assets:install_and_compile
 
