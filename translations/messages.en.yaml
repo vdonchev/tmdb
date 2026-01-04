@@ -54,3 +54,6 @@ genre:
 
 action:
     share: 'Share'
+
+trailer:
+    searching: 'Looking for movie trailer...'

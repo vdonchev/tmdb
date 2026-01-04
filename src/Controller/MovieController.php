@@ -11,6 +11,8 @@ use App\Filter\DiscoverFilter;
 use App\Filter\MovieFilter;
 use App\Repository\TmdbRepository;
 use App\Service\ImdbScrapper;
+use App\Service\KinocheckService;
+use DateMalformedStringException;
 use DateTimeImmutable;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +21,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[Route(path: ['bg' => '', 'en' => '/en'])]
-class HomeController extends AbstractController
+class MovieController extends AbstractController
 {
     public function __construct(
         private readonly TmdbRepository $movieRepository,
@@ -110,9 +117,7 @@ class HomeController extends AbstractController
     #[Route('/_turbo/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
     public function imdb(string $id, ImdbScrapper $scrapper, Request $request): Response
     {
-        if (!$request->headers->has('Turbo-Frame')) {
-            throw new AccessDeniedHttpException('This endpoint can only be accessed via Turbo Frame.');
-        }
+        $this->isTurboRequest($request);
 
         $rating = $scrapper->getRating($id);
 
@@ -125,12 +130,35 @@ class HomeController extends AbstractController
     #[Route('/_turbo/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
     public function credits(string $id, Request $request): Response
     {
-        if (!$request->headers->has('Turbo-Frame')) {
-            throw new AccessDeniedHttpException('This endpoint can only be accessed via Turbo Frame.');
-        }
+        $this->isTurboRequest($request);
 
         $credits = $this->movieRepository->getMovieCredits($id, CreditsFilter::fromArray([]));
 
         return $this->render('_turbo/credits.html.twig', ['credits' => $credits]);
+    }
+
+    /**
+     * @throws DateMalformedStringException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    #[Route('/_turbo/movie/{tmdbId}/trailer', name: 'app_trailer', methods: ['GET'])]
+    public function trailer(string $tmdbId, Request $request, KinocheckService $kinocheckService): Response
+    {
+        $this->isTurboRequest($request);
+
+        $trailer = $kinocheckService->getFirstTrailer($tmdbId);
+
+        return $this->render('_turbo/trailer.html.twig', ['trailer' => $trailer]);
+    }
+
+    private function isTurboRequest(Request $request): void
+    {
+        if (!$request->headers->has('Turbo-Frame')) {
+            throw new AccessDeniedHttpException('This endpoint can only be accessed via Turbo Frame.');
+        }
     }
 }

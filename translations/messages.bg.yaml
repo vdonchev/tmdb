@@ -51,5 +51,9 @@ genre:
     thriller: Трилър
     war: Военен
     western: Уестърн
+
 action:
   share: 'Сподели'
+
+trailer:
+    searching: 'Търсене на трейлър...'

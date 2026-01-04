@@ -62,6 +62,12 @@
                          class="w-full  hover:scale-105 transition duration-300 ease-in-out">
                 </div>
 
+                <turbo-frame id="movie-trailer" src="{{ path('app_trailer', {'tmdbId': movie.id}) }}">
+                    <div class="mt-4 opacity-20 ease-in-out transition duration-500">
+                        {{ 'trailer.searching'|trans }}
+                    </div>
+                </turbo-frame>
+
             </div>
 
             <div class="col-span-2">
