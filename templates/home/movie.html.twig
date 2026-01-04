@@ -2,6 +2,10 @@
 
 {% block title %}{{ movie.title }} ({{ movie.releaseDate ? movie.releaseDate|date('Y') : 'TBA' }}){% endblock %}
 
+{% set meta_title = movie.title %}
+{% set meta_description = movie.overview %}
+{% set meta_image = movie.posterPath %}
+
 {% block movie_backdrop %}
     {% if movie.backdropPath %}
         <img src="https://image.tmdb.org/t/p/original{{ movie.backdropPath }}" data-controller="image-loader"

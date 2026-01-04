@@ -1,0 +1,28 @@
+{# --- Open Graph --- #}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Films (by donchev)">
+<meta property="og:locale" content="bg_BG">
+<meta property="og:title" content="{{ meta_title|default("Films") }}">
+<meta property="og:description" content="{{ meta_description|default("Upcoming and trending movies list") }}">
+<meta property="og:url" content="{{ app.request.uri }}">
+
+{% if meta_image %}
+    <meta property="og:image" content="https://image.tmdb.org/t/p/w780{{ meta_image }}">
+    <meta property="og:image:width" content="780">
+    <meta property="og:image:height" content="1170">
+{% else %}
+    <meta property="og:image" content="{{ absolute_url(asset('images/no-poster-placeholder.png')) }}">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+{% endif %}
+
+{# --- Twitter --- #}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta_title|default("Films") }}">
+<meta name="twitter:description" content="{{ meta_description|default("Upcoming and trending movies list") }}">
+<meta name="twitter:image" content="{{ meta_image|default(absolute_url(asset('images/no-poster-placeholder.png'))) }}">
+{# <meta name="twitter:site" content="@YourTwitterHandle"> #}
+
+{# --- SEO --- #}
+<link rel="canonical" href="{{ app.request.uri }}">
+<meta name="description" content="{{ meta_description|default("Upcoming and trending movies list") }}">
