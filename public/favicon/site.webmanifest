@@ -1,0 +1,50 @@
+{
+    "id": "/",
+    "name": "Films (by donchev)",
+    "short_name": "Films",
+    "orientation": "any",
+    "start_url": "/",
+    "scope": "/",
+    "theme_color": "#101828",
+    "background_color": "#101828",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/favicon/web-app-manifest-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicon/web-app-manifest-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicon/web-app-manifest-192x192-maskable.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon/web-app-manifest-512x512-maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/favicon/home-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/favicon/home-mobile.png",
+            "sizes": "720x1280",
+            "type": "image/png"
+        }
+    ]
+}

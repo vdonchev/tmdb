@@ -34,5 +34,6 @@
         </a>
     {% endif %}
 
-    <div class="mt-4 sm:mt-0 text-center w-full sm:w-auto sm:border-l sm:pl-4 sm:ml-4 column border-gray-700"><b>{{ page }}</b> От <b>{{ results.totalPages }}</b> {{ 'paginator.pages'|trans }}</div>
+    <div class="mt-4 sm:mt-0 text-center w-full sm:w-auto sm:border-l sm:pl-4 sm:ml-4 column border-gray-700">
+        <b>{{ page }}</b> {{ 'paginator.of'|trans }} <b>{{ results.totalPages }}</b> {{ 'paginator.pages'|trans }}</div>
 </div>
