@@ -96,7 +96,7 @@ class HomeController extends AbstractController
     /**
      * @throws InvalidArgumentException
      */
-    #[Route('/movie/{id}', name: 'app_movie', methods: ['GET'])]
+    #[Route('/movie/{id}/{slug}', name: 'app_movie', methods: ['GET'])]
     public function movie(string $id): Response
     {
         $movie = $this->movieRepository->getMovieDetails($id, MovieFilter::fromArray([]));
@@ -107,7 +107,7 @@ class HomeController extends AbstractController
     /**
      * @throws InvalidArgumentException
      */
-    #[Route('/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
+    #[Route('/_turbo/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
     public function imdb(string $id, ImdbScrapper $scrapper, Request $request): Response
     {
         if (!$request->headers->has('Turbo-Frame')) {
@@ -122,7 +122,7 @@ class HomeController extends AbstractController
     /**
      * @throws InvalidArgumentException
      */
-    #[Route('/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
+    #[Route('/_turbo/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
     public function credits(string $id, Request $request): Response
     {
         if (!$request->headers->has('Turbo-Frame')) {
