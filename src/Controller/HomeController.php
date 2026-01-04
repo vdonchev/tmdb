@@ -14,26 +14,18 @@ use App\Service\ImdbScrapper;
 use DateTimeImmutable;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(path: ['bg' => '', 'en' => '/en'])]
 class HomeController extends AbstractController
 {
     public function __construct(
         private readonly TmdbRepository $movieRepository,
     ) {
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    #[Route('/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
-    public function imdb(string $id, ImdbScrapper $scrapper): Response
-    {
-        $rating = $scrapper->getRating($id);
-
-        return $this->render('_turbo/imdb_rating.html.twig', ['rating' => $rating]);
     }
 
     /**
@@ -47,10 +39,10 @@ class HomeController extends AbstractController
         #[MapQueryParameter] string $list = '',
         #[MapQueryParameter] int $page = 1,
     ): Response {
-        $list = ListType::tryFrom($list) ?? ListType::Upcomming;
+        $list = ListType::tryFrom($list) ?? ListType::Upcoming;
 
         $fromTo = match ($list) {
-            ListType::Upcomming => [
+            ListType::Upcoming => [
                 'gte' => new DateTimeImmutable(),
                 'lte' => new DateTimeImmutable('+30 days')
             ],
@@ -112,9 +104,31 @@ class HomeController extends AbstractController
         return $this->render('home/movie.html.twig', ['movie' => $movie]);
     }
 
-    #[Route('/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
-    public function credits(string $id): Response
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/imdb/{id}', name: 'app_imdb', methods: ['GET'])]
+    public function imdb(string $id, ImdbScrapper $scrapper, Request $request): Response
     {
+        if (!$request->headers->has('Turbo-Frame')) {
+            throw new AccessDeniedHttpException('This endpoint can only be accessed via Turbo Frame.');
+        }
+
+        $rating = $scrapper->getRating($id);
+
+        return $this->render('_turbo/imdb_rating.html.twig', ['rating' => $rating]);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/movie/{id}/credits', name: 'app_credits', methods: ['GET'])]
+    public function credits(string $id, Request $request): Response
+    {
+        if (!$request->headers->has('Turbo-Frame')) {
+            throw new AccessDeniedHttpException('This endpoint can only be accessed via Turbo Frame.');
+        }
+
         $credits = $this->movieRepository->getMovieCredits($id, CreditsFilter::fromArray([]));
 
         return $this->render('_turbo/credits.html.twig', ['credits' => $credits]);

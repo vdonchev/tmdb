@@ -1,0 +1,52 @@
+turbo:
+    loading: 'Зареждане...'
+
+menu:
+    upcoming: 'Предстоящи'
+    trending: 'Популярни'
+
+paginator:
+    prev: 'Предишна'
+    next: 'Следваща'
+    pages: 'Страници'
+
+credits:
+    top_billed_cast: 'В главните роли'
+    no_cast: 'Няма данни'
+
+movie:
+    length_minutes: 'мин'
+    overview: 'Описание'
+    homepage: 'Официален сайт'
+    revenue: 'Приходи'
+    budget: 'Бюджет'
+    language: 'Език'
+    release_date: 'Премиера'
+    status: 'Статус'
+
+rating:
+    votes: 'Гласували'
+
+navigation:
+    back: 'Обратно'
+
+genre:
+    action: Екшън
+    adventure: Приключенски
+    animation: Анимация
+    comedy: Комедия
+    crime: Криминален
+    documentary: Документален
+    drama: Драма
+    family: Семеен
+    fantasy: Фентъзи
+    history: Исторически
+    horror: Ужаси
+    music: Музикален
+    mystery: Мистерия
+    romance: Романтичен
+    science_fiction: Научна фантастика
+    tv_movie: Телевизионен филм
+    thriller: Трилър
+    war: Военен
+    western: Уестърн

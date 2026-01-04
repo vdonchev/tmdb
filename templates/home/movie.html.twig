@@ -42,9 +42,9 @@
                         <p class="text-xl italic text-gray-300 mb-4">{{ movie.tagline }}</p>
                     {% endif %}
 
-                    <div class="flex flex-wrap items-center gap-4 mb-4 text-md items-start">
+                    <div class="flex flex-wrap gap-4 mb-4 text-md items-start">
 
-                        {% if movie.status is same as 'Released' and movie.imdbId is not null %}
+                        {% if movie.status is same as 'Released' and movie.imdbId is not null and movie.voteAverage != 0 %}
                             <turbo-frame id="imdb-id" src="{{ path('app_imdb', {'id': movie.imdbId}) }}">
                                 <div
                                     class="flex items-center bg-yellow-500 text-black font-bold px-3 py-1 rounded-full opacity-5 blur-[2px] ease-in-out">
@@ -70,13 +70,13 @@
                                     {{ movie.voteAverage|number_format(1) }}
                                 </div>
                                 <div class="mt-1">
-                                    {{ movie.voteCount }} votes
+                                    {{ movie.voteCount }} {{ 'rating.votes'|trans }}
                                 </div>
                             </div>
                         {% endif %}
 
                         {% if movie.runtime > 0 %}
-                            <span class="text-gray-200">{{ movie.runtime }} min</span>
+                            <span class="text-gray-200">{{ movie.runtime }} {{ 'movie.length_minutes'|trans }}</span>
                         {% endif %}
                     </div>
 
@@ -85,7 +85,7 @@
                             {% for genre in movie.genres %}
                                 <span
                                     class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-md border border-gray-700">
-                                        {{ genre }}
+                                        {{ ('genre.' ~ genre|lower|replace({' ': '_'}))|trans }}
                                     </span>
                             {% endfor %}
                         </div>
@@ -94,7 +94,7 @@
                     <div class="mb-8">
                         <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
                             <span class="w-1 h-8 bg-yellow-500 mr-3 rounded-full"></span>
-                            Overview
+                            {{ 'movie.overview'|trans }}
                         </h2>
                         <p class="text-gray-300 leading-relaxed text-lg">
                             {{ movie.overview }}
@@ -102,29 +102,29 @@
                     </div>
 
                     <turbo-frame id="credits-frame" src="{{ path('app_credits', {'id': movie.id}) }}">
-                        Loading...
+                        {{ 'turbo.loading'|trans }}
                     </turbo-frame>
 
                     <div class="grid grid-cols-2 sm:grid-cols-5 gap-6 py-6 border-t border-gray-800">
                         <div>
-                            <span class="block text-gray-500 text-sm uppercase font-bold">Status</span>
+                            <span class="block text-gray-500 text-sm uppercase font-bold">{{ 'movie.status'|trans }}</span>
                             <span class="text-white">{{ movie.status }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500 text-sm uppercase font-bold">Release date</span>
+                            <span class="block text-gray-500 text-sm uppercase font-bold">{{ 'movie.release_date'|trans }}</span>
                             <span class="text-white">{{ movie.releaseDate|date('Y-m-d') }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500 text-sm uppercase font-bold">Language</span>
+                            <span class="block text-gray-500 text-sm uppercase font-bold">{{ 'movie.language'|trans }}</span>
                             <span class="text-white uppercase">{{ movie.originalLanguage }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500 text-sm uppercase font-bold">Budget</span>
+                            <span class="block text-gray-500 text-sm uppercase font-bold">{{ 'movie.budget'|trans }}</span>
                             <span
                                 class="text-white">{{ movie.budget > 0 ? '$' ~ movie.budget|number_format : '-' }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500 text-sm uppercase font-bold">Revenue</span>
+                            <span class="block text-gray-500 text-sm uppercase font-bold">{{ 'movie.revenue'|trans }}</span>
                             <span
                                 class="text-white">{{ movie.revenue > 0 ? '$' ~ movie.revenue|number_format : '-' }}</span>
                         </div>
@@ -134,7 +134,7 @@
                         <div class="mt-4">
                             <a href="{{ movie.homepage }}" target="_blank"
                                class="inline-flex items-center text-yellow-500 hover:text-yellow-400 transition-colors">
-                                Official Website
+                                {{ 'movie.homepage'|trans }}
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -155,7 +155,7 @@
                             <path d="M9 14l-4 -4l4 -4"/>
                             <path d="M5 10h11a4 4 0 1 1 0 8h-1"/>
                         </svg>
-                        Обратно
+                        {{ 'navigation.back'|trans }}
                     </button>
                 </div>
             </div>

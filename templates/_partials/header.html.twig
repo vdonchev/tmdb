@@ -18,21 +18,9 @@
     <div>tv<span class="dark:text-gray-500">.donchev.be</span></div>
 
     <div class="flex justify-center my-2 text-[1.1rem]">
-        <a href="{{ path('app_home', {'list': 'trending', 'page': 1 }) }}"
-           class="hover:underline">
-            <div class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-trending-up me-2">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M3 17l6 -6l4 4l8 -8"/>
-                    <path d="M14 7l7 0l0 7"/>
-                </svg>
-                Trending
-            </div>
-        </a>
-        <a href="{{ path('app_home', {'list': 'upcomming' ,'page':  1 }) }}"
-           class="ml-5 hover:underline dark:text-pink-500">
+
+        <a href="{{ path('app_home', {'list': 'upcoming' ,'page':  1 }) }}"
+           class="hover:underline dark:text-pink-500">
             <div class="flex">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -42,7 +30,21 @@
                     <path d="M16 3l-4 4l-4 -4"/>
                 </svg>
 
-                Upcomming
+                {{ 'menu.upcoming'|trans }}
+            </div>
+        </a>
+
+        <a href="{{ path('app_home', {'list': 'trending', 'page': 1 }) }}"
+           class="ml-5 hover:underline">
+            <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon icon-tabler icons-tabler-outline icon-tabler-trending-up me-2">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M3 17l6 -6l4 4l8 -8"/>
+                    <path d="M14 7l7 0l0 7"/>
+                </svg>
+                {{ 'menu.trending'|trans }}
             </div>
         </a>
     </div>

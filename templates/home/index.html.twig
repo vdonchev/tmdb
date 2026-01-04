@@ -49,10 +49,10 @@
                                         </div>
                                     {% endif %}
 
-                                    <div class="text-center font-bold">Release date: <span
+                                    <div class="text-center font-bold">{{ 'movie.release_date'|trans }}: <span
                                             class="text-nowrap">{{ movie.releaseDate|date('d-m-Y') }}</span></div>
 
-                                    <div class="text-center">{{ movie.genres|join(" ") }}</div>
+                                    <div class="text-center">{{ movie.genres|map(g => g|trans)|join(', ') }}</div>
                                 </div>
                             </div>
 

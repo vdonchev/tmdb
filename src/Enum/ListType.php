@@ -4,6 +4,6 @@ namespace App\Enum;
 
 enum ListType: string
 {
-    case Upcomming = 'upcomming';
+    case Upcoming = 'upcoming';
     case Trending = 'trending';
 }

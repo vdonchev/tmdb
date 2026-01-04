@@ -1,0 +1,52 @@
+turbo:
+    loading: 'Loading...'
+
+menu:
+    upcoming: 'Upcoming'
+    trending: 'Trending'
+
+paginator:
+    prev: 'Previous'
+    next: 'Next'
+    pages: 'Pages'
+
+credits:
+    top_billed_cast: 'Top Billed Cast'
+    no_cast: 'No data available'
+
+movie:
+    length_minutes: 'min'
+    overview: 'Overview'
+    homepage: 'Official Website'
+    revenue: 'Revenue'
+    budget: 'Budget'
+    language: 'Language'
+    release_date: 'Release Date'
+    status: 'Status'
+
+rating:
+    votes: 'Votes'
+
+navigation:
+    back: 'Back'
+
+genre:
+    action: Action
+    adventure: Adventure
+    animation: Animation
+    comedy: Comedy
+    crime: Crime
+    documentary: Documentary
+    drama: Drama
+    family: Family
+    fantasy: Fantasy
+    history: History
+    horror: Horror
+    music: Music
+    mystery: Mystery
+    romance: Romance
+    science_fiction: Science Fiction
+    tv_movie: TV Movie
+    thriller: Thriller
+    war: War
+    western: Western

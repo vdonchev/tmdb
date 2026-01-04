@@ -36,6 +36,7 @@ final readonly class ImdbScrapper
             $content = $response->getContent();
 
             $rating = null;
+            $ratingCount = null;
             if (preg_match('/<script type="application\/ld\+json">(.*?)<\/script>/s', $content, $matches)) {
                 $data = json_decode($matches[1], true);
 

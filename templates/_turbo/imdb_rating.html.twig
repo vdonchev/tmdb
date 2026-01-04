@@ -1,6 +1,5 @@
 <turbo-frame id="imdb-id">
-    {% if rating is not null %}
-
+    {% if rating.rating is not null %}
         <a href="https://www.imdb.com/title/{{ rating.imdbId }}" target="_blank">
             <div class="flex flex-col items-center">
                 <div
@@ -13,7 +12,7 @@
                     {{ rating.rating|number_format(1) }}
                 </div>
                 <div class="mt-1">
-                    {{ rating.ratingCount }} votes
+                    {{ rating.ratingCount }} {{ 'rating.votes'|trans }}
                 </div>
             </div>
         </a>
