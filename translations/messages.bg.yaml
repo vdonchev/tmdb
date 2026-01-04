@@ -9,6 +9,7 @@ paginator:
     prev: 'Предишна'
     next: 'Следваща'
     pages: 'Страници'
+    of: 'от'
 
 credits:
     top_billed_cast: 'В главните роли'

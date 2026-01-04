@@ -9,6 +9,7 @@ paginator:
     prev: 'Previous'
     next: 'Next'
     pages: 'Pages'
+    of: 'of'
 
 credits:
     top_billed_cast: 'Top Billed Cast'
