@@ -66,4 +66,12 @@ final readonly class MovieDto
             voteCount: (int)($data['vote_count'] ?? 0),
         );
     }
+
+    public function getSlug(): string
+    {
+        $slug = str_replace(' ', '-', $this->title);
+        $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '', $slug);
+
+        return strtolower($slug);
+    }
 }

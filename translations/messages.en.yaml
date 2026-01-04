@@ -51,3 +51,6 @@ genre:
     thriller: Thriller
     war: War
     western: Western
+
+action:
+    share: 'Share'
