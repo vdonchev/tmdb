@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Enum\ListType;
-use App\Enum\MovieSort;
+use App\Factory\Filter\DiscoverFilterFactory;
 use App\Filter\CreditsFilter;
-use App\Filter\DiscoverFilter;
 use App\Filter\MovieFilter;
 use App\Repository\KinocheckRepository;
 use App\Repository\TmdbRepository;
 use App\Service\ImdbScrapper;
-use DateTimeImmutable;
+use DateMalformedStringException;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,61 +29,18 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @param string $list
-     * @param int $page
-     * @return Response
+     * @throws DateMalformedStringException
      * @throws InvalidArgumentException
      */
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(
+        DiscoverFilterFactory $discoverFilterFactory,
         #[MapQueryParameter] string $list = '',
         #[MapQueryParameter] int $page = 1,
     ): Response {
         $list = ListType::tryFrom($list) ?? ListType::Upcoming;
 
-        $fromTo = match ($list) {
-            ListType::Upcoming => [
-                'gte' => new DateTimeImmutable(),
-                'lte' => new DateTimeImmutable('+30 days')
-            ],
-            ListType::Trending => [
-                'gte' => new DateTimeImmutable('-30 days'),
-                'lte' => new DateTimeImmutable('-1 day')
-            ]
-        };
-
-        $filter = new DiscoverFilter(
-            page: max(1, $page),
-            primaryReleaseDateGte: $fromTo['gte'],
-            primaryReleaseDateLte: $fromTo['lte'],
-            sortBy: MovieSort::PopularityDesc,
-            includeAdult: false,
-            withOriginalLanguage: [
-                "en",
-                "fr",
-                "de",
-                "es",
-                "it",
-                "sv",
-                "da",
-                "no",
-                "nb",
-                "nn",
-                "fi",
-                "nl",
-                "pl",
-                "cs",
-                "sk",
-                "hu",
-                "ro",
-                "bg",
-                "el",
-                "pt",
-                "ja",
-                "ko"
-            ],
-            withRuntimeGte: 60
-        );
+        $filter = $discoverFilterFactory->fromList($list, $page);
 
         $results = $this->movieRepository->discoverMovies($filter, $list->value);
 
@@ -132,10 +88,6 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @param string $tmdbId
-     * @param Request $request
-     * @param KinocheckRepository $kinocheckRepository
-     * @return Response
      * @throws InvalidArgumentException
      */
     #[Route('/_turbo/movie/{tmdbId}/trailer', name: 'app_trailer', methods: ['GET'])]

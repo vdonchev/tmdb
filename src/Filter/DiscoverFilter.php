@@ -21,24 +21,6 @@ final readonly class DiscoverFilter implements FilterInterface
     ) {
     }
 
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            page: (int)($data['page'] ?? 1),
-            primaryReleaseDateGte: $data['primary_release_date.gte'] ?? new DateTimeImmutable(),
-            primaryReleaseDateLte: $data['primary_release_date.lte'] ?? new DateTimeImmutable(),
-            sortBy: isset($data['sort_by'])
-                ? (MovieSort::tryFrom($data['sort_by']) ?? MovieSort::PopularityDesc)
-                : MovieSort::PopularityDesc,
-            includeAdult: filter_var($data['include_adult'] ?? false, FILTER_VALIDATE_BOOL),
-            includeVideo: filter_var($data['include_video'] ?? false, FILTER_VALIDATE_BOOL),
-            language: (string)($data['language'] ?? 'en-US'),
-            withOriginalLanguage: $data['with_original_language'] ?? [],
-            withRuntimeGte: $data['with_runtime.gte'] ?? null,
-            withRuntimeLte: $data['with_runtime.lte'] ?? null,
-        );
-    }
-
     public function toArray(): array
     {
         return array_filter([
