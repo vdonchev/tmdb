@@ -1,9 +1,10 @@
 <turbo-frame id="movie-trailer">
 
     {% if trailer is not null %}
-        <div class="w-full">
+        <div class="border-[2px] border-gray-500/20 max-w-[500px] mt-5 mx-auto rounded overflow-hidden shadow-lg
+                    shadow-gray-950/3">
             <iframe
-                class="w-full aspect-video rounded-lg shadow-lg max-w-[400px] mt-5 opacity-80"
+                class="w-full aspect-video"
                 src="https://www.youtube.com/embed/{{ trailer.youtubeVideoId }}"
                 title="{{ trailer.title }}"
                 frameborder="0"
