@@ -1,4 +1,4 @@
-<div class="flex flex-wrap items-center mb-4 justify-center" id="paginator">
+<div class="flex flex-wrap items-center justify-center" id="{{ paginator_id|default('paginator') }}">
     {% if results.hasPreviousPage %}
         <a href="{{ path('app_home', { 'list': list, 'page': page - 1 }) }}"
            data-turbo-preload

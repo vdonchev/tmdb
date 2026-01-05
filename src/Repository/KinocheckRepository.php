@@ -20,7 +20,7 @@ final class KinocheckRepository
     /**
      * @throws InvalidArgumentException
      */
-    public function getFirstTrailer(string $tmdbId): TrailerDto
+    public function getFirstTrailer(string $tmdbId): ?TrailerDto
     {
         $key = 'trailer_' . $tmdbId;
 

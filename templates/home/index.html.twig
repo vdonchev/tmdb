@@ -2,17 +2,19 @@
 
 {% block body %}
 
-    {% include '_partials/paginator.html.twig' %}
+    <div class="mb-5 border-b border-white/5 pb-5">
+        {% include '_partials/paginator.html.twig' with { 'paginator_id': 'paginator-header'} %}
+    </div>
 
     <turbo-frame id="titles" data-turbo-action="advance"
                  class="transition duration-500 ease-in-out aria-busy:blur-[5px]">
 
         <div class="">
-
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 font-mono">
                 {# @var movie \App\Dto\MovieResultDto #}
                 {% for movie in results.results %}
-                    <a href="{{ path('app_movie', { 'id': movie.id, 'slug': movie.title|slug|lower }) }}" data-turbo-frame="_top">
+                    <a href="{{ path('app_movie', { 'id': movie.id, 'slug': movie.title|slug|lower }) }}"
+                       data-turbo-frame="_top">
                         <div
                             class="relative group rounded overflow-hidden shadow-sm border border-gray-700 cursor-pointer">
                             <div class="w-full overflow-hidden aspect-[2/3] bg-gray-800 relative">
@@ -63,12 +65,22 @@
             </div>
         </div>
 
-        <turbo-stream action="replace" target="paginator">
+        <turbo-stream action="replace" target="paginator-header">
             <template>
-                {% include '_partials/paginator.html.twig' %}
+                {% include '_partials/paginator.html.twig' with {'paginator_id': 'paginator-header'} %}
+            </template>
+        </turbo-stream>
+
+        <turbo-stream action="replace" target="paginator-footer">
+            <template>
+                {% include '_partials/paginator.html.twig' with {'paginator_id': 'paginator-footer'} %}
             </template>
         </turbo-stream>
 
     </turbo-frame>
+
+    <div class="mt-5 border-t border-white/5 pt-5">
+        {% include '_partials/paginator.html.twig' with { 'paginator_id': 'paginator-footer'} %}
+    </div>
 
 {% endblock %}
