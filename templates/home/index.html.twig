@@ -12,7 +12,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 font-mono">
                 {# @var movie \App\Dto\MovieResultDto #}
                 {% for movie in results.results %}
-                    <a href="{{ path('app_movie', { 'id': movie.id, 'slug': movie.slug }) }}" data-turbo-frame="_top">
+                    <a href="{{ path('app_movie', { 'id': movie.id, 'slug': movie.title|slug|lower }) }}" data-turbo-frame="_top">
                         <div
                             class="relative group rounded overflow-hidden shadow-sm border border-gray-700 cursor-pointer">
                             <div class="w-full overflow-hidden aspect-[2/3] bg-gray-800 relative">

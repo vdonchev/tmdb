@@ -49,12 +49,4 @@ final readonly class MovieResultDto
             genres: $data = $genres,
         );
     }
-
-    public function getSlug(): string
-    {
-        $slug = str_replace(' ', '-', $this->title);
-        $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '', $slug);
-
-        return strtolower($slug);
-    }
 }

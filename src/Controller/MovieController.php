@@ -9,10 +9,9 @@ use App\Enum\MovieSort;
 use App\Filter\CreditsFilter;
 use App\Filter\DiscoverFilter;
 use App\Filter\MovieFilter;
+use App\Repository\KinocheckRepository;
 use App\Repository\TmdbRepository;
 use App\Service\ImdbScrapper;
-use App\Service\KinocheckService;
-use DateMalformedStringException;
 use DateTimeImmutable;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[Route(path: ['bg' => '', 'en' => '/en'])]
 class MovieController extends AbstractController
@@ -138,19 +132,18 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @throws DateMalformedStringException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
+     * @param string $tmdbId
+     * @param Request $request
+     * @param KinocheckRepository $kinocheckRepository
+     * @return Response
+     * @throws InvalidArgumentException
      */
     #[Route('/_turbo/movie/{tmdbId}/trailer', name: 'app_trailer', methods: ['GET'])]
-    public function trailer(string $tmdbId, Request $request, KinocheckService $kinocheckService): Response
+    public function trailer(string $tmdbId, Request $request, KinocheckRepository $kinocheckRepository): Response
     {
         $this->isTurboRequest($request);
 
-        $trailer = $kinocheckService->getFirstTrailer($tmdbId);
+        $trailer = $kinocheckRepository->getFirstTrailer($tmdbId);
 
         return $this->render('_turbo/trailer.html.twig', ['trailer' => $trailer]);
     }
