@@ -32,25 +32,25 @@ navigation:
     back: 'Обратно'
 
 genre:
-    action: Екшън
-    adventure: Приключенски
-    animation: Анимация
-    comedy: Комедия
-    crime: Криминален
-    documentary: Документален
-    drama: Драма
-    family: Семеен
-    fantasy: Фентъзи
-    history: Исторически
-    horror: Ужаси
-    music: Музикален
-    mystery: Мистерия
-    romance: Романтичен
-    science_fiction: Научна фантастика
-    tv_movie: Телевизионен филм
-    thriller: Трилър
-    war: Военен
-    western: Уестърн
+    action: 'Екшън'
+    adventure: 'Приключенски'
+    animation: 'Анимация'
+    comedy: 'Комедия'
+    crime: 'Криминален'
+    documentary: 'Документален'
+    drama: 'Драма'
+    family: 'Семеен'
+    fantasy: 'Фентъзи'
+    history: 'Исторически'
+    horror: 'Ужаси'
+    music: 'Музикален'
+    mystery: 'Мистерия'
+    romance: 'Романтичен'
+    science_fiction: 'Научна фантастика'
+    tv_movie: 'Телевизионен филм'
+    thriller: 'Трилър'
+    war: 'Военен'
+    western: 'Уестърн'
 
 action:
   share: 'Сподели'
