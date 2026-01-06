@@ -54,7 +54,7 @@ final readonly class ImdbScrapper
 
             return $this->denormalizer->denormalize([
                 'imdb_id' => $imdbMovieId,
-                'rating' => $rating,
+                'rating' => (float)$rating,
                 'rating_count' => $ratingCount,
             ], ImdbRatingDto::class);
         });
