@@ -17,6 +17,10 @@ final readonly class MovieDtoFactory
      */
     public function createFromTmdb(array $data): MovieDto
     {
+        if ($data['release_date'] === '') {
+            $data['release_date'] = null;
+        }
+
         $movieDto = $this->denormalizer->denormalize($data, MovieDto::class);
 
         $movieDto->genres = array_map(fn(array $genre) => $genre['name'], $movieDto->genresRaw);

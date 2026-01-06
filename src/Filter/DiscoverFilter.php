@@ -24,10 +24,8 @@ final readonly class DiscoverFilter implements FilterInterface
         #[SerializedName('sort_by')]
         public MovieSort $sortBy = MovieSort::PopularityDesc,
 
-        #[SerializedName('include_adult')]
         public bool $includeAdult = true,
 
-        #[SerializedName('include_video')]
         public bool $includeVideo = false,
 
         #[SerializedName('language')]
@@ -44,8 +42,20 @@ final readonly class DiscoverFilter implements FilterInterface
     }
 
     #[SerializedName('with_original_language')]
-    public function getWithOriginalLanguage()
+    public function getWithOriginalLanguage(): string
     {
         return implode('|', $this->withOriginalLanguage);
+    }
+
+    #[SerializedName('include_adult')]
+    public function getIncludeAdult(): string
+    {
+        return $this->includeAdult ? 'true' : 'false';
+    }
+
+    #[SerializedName('include_video')]
+    public function getIncludeVideo(): string
+    {
+        return $this->includeVideo ? 'true' : 'false';
     }
 }
