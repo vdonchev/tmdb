@@ -2,12 +2,18 @@
 
 namespace App\Dto;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
+
 final readonly class ResultDto
 {
     public function __construct(
         public int $page,
         public array $results,
+
+        #[SerializedName('total_pages')]
         public int $totalPages,
+
+        #[SerializedName('total_results')]
         public int $totalResults,
     ) {
     }

@@ -3,49 +3,52 @@
 namespace App\Service;
 
 use App\Dto\TrailerDto;
-use DateMalformedStringException;
+use App\Exception\KinocheckApiException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Throwable;
 
 final readonly class KinocheckService
 {
-    public function __construct(private HttpClientInterface $httpClient)
-    {
+    public function __construct(
+        private HttpClientInterface $httpClient,
+        private DenormalizerInterface $denormalizer
+    ) {
     }
 
     /**
-     * @param string $imdbId
-     * @return array
+     * @throws KinocheckApiException
      * @throws TransportExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
      */
     public function getTrailers(string $imdbId): array
     {
-        $result = $this->httpClient->request('GET', 'https://api.kinocheck.com/trailers', [
-            'query' => ['tmdb_id' => $imdbId, 'language' => 'en'],
-        ]);
+        try {
+            $result = $this->httpClient->request('GET', 'https://api.kinocheck.com/trailers', [
+                'query' => ['tmdb_id' => $imdbId, 'language' => 'en'],
+            ]);
 
-        if ($result->getStatusCode() !== 200) {
-            return [];
+            if ($result->getStatusCode() !== 200) {
+                return [];
+            }
+
+            return $result->toArray();
+        } catch (ClientExceptionInterface $e) {
+            if ($e->getResponse()->getStatusCode() === 404) {
+                throw new NotFoundHttpException('Resource not found on TMDB', $e);
+            }
+            throw new KinocheckApiException($e->getMessage(), $e->getCode(), $e);
+        } catch (Throwable $e) {
+            throw new KinocheckApiException($e->getMessage(), (int)$e->getCode(), $e);
         }
-
-        return $result->toArray();
     }
 
     /**
-     * @throws DateMalformedStringException
+     * @throws ExceptionInterface
+     * @throws KinocheckApiException
      * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
      */
     public function getFirstTrailer(string $tmdbId): ?TrailerDto
     {
@@ -53,6 +56,6 @@ final readonly class KinocheckService
             return null;
         }
 
-        return TrailerDto::fromArray($trailers[0]);
+        return $this->denormalizer->denormalize($trailers[0], TrailerDto::class);
     }
 }

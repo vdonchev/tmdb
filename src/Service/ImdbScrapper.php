@@ -4,14 +4,18 @@ namespace App\Service;
 
 use App\Dto\ImdbRatingDto;
 use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class ImdbScrapper
 {
-    public function __construct(private HttpClientInterface $client, private CacheInterface $cache)
-    {
+    public function __construct(
+        private HttpClientInterface $client,
+        private CacheInterface $cache,
+        private DenormalizerInterface $denormalizer
+    ) {
     }
 
     /**
@@ -48,11 +52,11 @@ final readonly class ImdbScrapper
 
             $item->expiresAfter($rating ? 86400 : 10);
 
-            return ImdbRatingDto::fromArray([
+            return $this->denormalizer->denormalize([
                 'imdb_id' => $imdbMovieId,
                 'rating' => $rating,
                 'rating_count' => $ratingCount,
-            ]);
+            ], ImdbRatingDto::class);
         });
     }
 }

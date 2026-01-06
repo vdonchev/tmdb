@@ -9,11 +9,11 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-final class KinocheckRepository
+final readonly class KinocheckRepository
 {
     public function __construct(
-        #[Autowire(service: 'tv.cache')] private readonly CacheInterface $cache,
-        private readonly KinocheckService $kinocheckService
+        #[Autowire(service: 'tv.cache')] private CacheInterface $cache,
+        private KinocheckService $kinocheckService
     ) {
     }
 

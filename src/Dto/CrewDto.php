@@ -2,37 +2,30 @@
 
 namespace App\Dto;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
+
 final readonly class CrewDto
 {
     public function __construct(
         public bool $adult,
         public int $gender,
         public int $id,
+
+        #[SerializedName('known_for_department')]
         public string $knownForDepartment,
         public string $name,
+
+        #[SerializedName('original_name')]
         public string $originalName,
         public float $popularity,
+
+        #[SerializedName('profile_path')]
         public ?string $profilePath,
+
+        #[SerializedName('credit_id')]
         public string $creditId,
         public string $department,
         public string $job,
     ) {
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            adult: $data['adult'] ?? true,
-            gender: (int)($data['gender'] ?? 0),
-            id: (int)($data['id'] ?? 0),
-            knownForDepartment: (string)($data['known_for_department'] ?? ''),
-            name: (string)($data['name'] ?? ''),
-            originalName: (string)($data['original_name'] ?? ''),
-            popularity: (float)($data['popularity'] ?? 0.0),
-            profilePath: $data['profile_path'] ?? null,
-            creditId: (string)($data['credit_id'] ?? ''),
-            department: (string)($data['department'] ?? ''),
-            job: (string)($data['job'] ?? ''),
-        );
     }
 }

@@ -2,68 +2,54 @@
 
 namespace App\Dto;
 
-use DateMalformedStringException;
 use DateTimeImmutable;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
-final readonly class MovieDto
+final class MovieDto
 {
     public function __construct(
         public bool $adult,
+
+        #[SerializedName('backdrop_path')]
         public ?string $backdropPath,
         public int $budget,
-        public array $genres,
+
+        #[SerializedName('genres')]
+        public array $genresRaw,
         public string $homepage,
         public int $id,
+
+        #[SerializedName('imdb_id')]
         public ?string $imdbId,
+
+        #[SerializedName('original_language')]
         public string $originalLanguage,
+
+        #[SerializedName('original_title')]
         public string $originalTitle,
         public string $overview,
         public float $popularity,
+
+        #[SerializedName('poster_path')]
         public ?string $posterPath,
+
+        #[SerializedName('release_date')]
         public ?DateTimeImmutable $releaseDate,
         public int $revenue,
         public int $runtime,
         public string $status,
         public string $tagline,
         public string $title,
+
+        #[SerializedName('vote_average')]
         public float $voteAverage,
+
+        #[SerializedName('vote_count')]
         public int $voteCount,
+
+        #[Ignore]
+        public array $genres = [],
     ) {
-    }
-
-    /**
-     * @throws DateMalformedStringException
-     */
-    public static function fromArray(array $data): self
-    {
-        $releaseDate = !empty($data['release_date'])
-            ? new DateTimeImmutable($data['release_date'])
-            : null;
-
-        $genresData = $data['genres'] ?? [];
-        $genres = array_map(fn(array $genre) => $genre['name'], $genresData);
-
-        return new self(
-            adult: $data['adult'] ?? false,
-            backdropPath: $data['backdrop_path'] ?? null,
-            budget: (int)($data['budget'] ?? 0),
-            genres: $genres,
-            homepage: (string)($data['homepage'] ?? ''),
-            id: (int)$data['id'],
-            imdbId: $data['imdb_id'] ?? null,
-            originalLanguage: (string)($data['original_language'] ?? ''),
-            originalTitle: (string)($data['original_title'] ?? ''),
-            overview: (string)($data['overview'] ?? ''),
-            popularity: (float)($data['popularity'] ?? 0.0),
-            posterPath: $data['poster_path'] ?? null,
-            releaseDate: $releaseDate,
-            revenue: (int)($data['revenue'] ?? 0),
-            runtime: (int)($data['runtime'] ?? 0),
-            status: (string)($data['status'] ?? ''),
-            tagline: (string)($data['tagline'] ?? ''),
-            title: (string)($data['title'] ?? ''),
-            voteAverage: (float)($data['vote_average'] ?? 0.0),
-            voteCount: (int)($data['vote_count'] ?? 0),
-        );
     }
 }

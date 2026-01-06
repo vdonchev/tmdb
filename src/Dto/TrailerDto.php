@@ -2,8 +2,8 @@
 
 namespace App\Dto;
 
-use DateMalformedStringException;
 use DateTimeImmutable;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 final readonly class TrailerDto
 {
@@ -13,8 +13,14 @@ final readonly class TrailerDto
      */
     public function __construct(
         public string $id,
+
+        #[SerializedName('youtube_video_id')]
         public string $youtubeVideoId,
+
+        #[SerializedName('youtube_channel_id')]
         public string $youtubeChannelId,
+
+        #[SerializedName('youtube_thumbnail')]
         public string $youtubeThumbnail,
         public string $title,
         public string $url,
@@ -22,31 +28,8 @@ final readonly class TrailerDto
         public string $language,
         public array $categories,
         public array $genres,
-        public DateTimeImmutable $published,
+        public ?DateTimeImmutable $published,
         public int $views,
     ) {
-    }
-
-    /**
-     * @param array $data
-     * @return self
-     * @throws DateMalformedStringException
-     */
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            id: $data['id'] ?? '',
-            youtubeVideoId: $data['youtube_video_id'] ?? '',
-            youtubeChannelId: $data['youtube_channel_id'] ?? '',
-            youtubeThumbnail: $data['youtube_thumbnail'] ?? '',
-            title: $data['title'] ?? '',
-            url: $data['url'] ?? '',
-            thumbnail: $data['thumbnail'] ?? '',
-            language: $data['language'] ?? '',
-            categories: $data['categories'] ?? [],
-            genres: $data['genres'] ?? [],
-            published: new DateTimeImmutable($data['published']),
-            views: (int)($data['views'] ?? 0),
-        );
     }
 }

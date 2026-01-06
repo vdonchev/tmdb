@@ -4,132 +4,105 @@ namespace App\Service;
 
 use App\Dto\CreditsDto;
 use App\Dto\MovieDto;
-use App\Dto\MovieResultDto;
 use App\Dto\ResultDto;
+use App\Exception\TmdbApiException;
+use App\Factory\Dto\CreditsDtoFactory;
+use App\Factory\Dto\MovieDtoFactory;
+use App\Factory\Dto\MovieResultDtoFactory;
 use App\Filter\CreditsFilter;
 use App\Filter\DiscoverFilter;
 use App\Filter\FilterInterface;
 use App\Filter\MovieFilter;
-use App\Repository\GenreRepository;
-use DateMalformedStringException;
-use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Throwable;
 
-final class TmdbService
+final readonly class TmdbService
 {
     public function __construct(
-        private readonly HttpClientInterface $client,
-        private readonly GenreRepository $genreRepository,
-        #[Autowire('%env(TMDB_ACCESS_TOKEN)%')] private readonly string $token,
-        #[Autowire('%env(TMDB_API_BASEURL)%')] private readonly string $url,
+        private HttpClientInterface $client,
+        private SerializerInterface $serializer,
+        private CreditsDtoFactory $creditsDtoFactory,
+        private MovieDtoFactory $movieDtoFactory,
+        private MovieResultDtoFactory $movieResultDtoFactory,
 
-        #[Autowire('%env(TMDB_API_PATH_DISCOVER)%')] private readonly string $discoverPath,
-        #[Autowire('%env(TMDB_API_PATH_MOVIE)%')] private readonly string $moviePath,
-        #[Autowire('%env(TMDB_API_PATH_CREDITS)%')] private readonly string $creditsPath,
+        #[Autowire('%env(TMDB_ACCESS_TOKEN)%')] private string $token,
+        #[Autowire('%env(TMDB_API_BASEURL)%')] private string $url,
+
+        #[Autowire('%env(TMDB_API_PATH_DISCOVER)%')] private string $discoverPath,
+        #[Autowire('%env(TMDB_API_PATH_MOVIE)%')] private string $moviePath,
+        #[Autowire('%env(TMDB_API_PATH_CREDITS)%')] private string $creditsPath,
     ) {
     }
 
     /**
-     * @param string $movieId
-     * @param MovieFilter $filter
-     * @return MovieDto
-     * @throws ClientExceptionInterface
-     * @throws DateMalformedStringException
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
+     * @throws ExceptionInterface
+     * @throws TmdbApiException
      */
     public function getMovieDetails(string $movieId, MovieFilter $filter): MovieDto
     {
         $data = $this->queryApi($filter, $this->moviePath, [$movieId]);
 
-        return MovieDto::fromArray($data);
+        return $this->movieDtoFactory->createFromTmdb($data);
     }
 
     /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
+     * @throws TmdbApiException
      */
     public function getMovieCredits(string $movieId, CreditsFilter $filter): CreditsDto
     {
-        $data = $this->queryApi($filter, $this->creditsPath , [$movieId]);
+        $data = $this->queryApi($filter, $this->creditsPath, [$movieId]);
 
-        return CreditsDto::fromArray($data);
+        return $this->creditsDtoFactory->createFromTmdb($data);
     }
 
     /**
-     * @param DiscoverFilter $filter
-     * @return ResultDto
-     * @throws ClientExceptionInterface
-     * @throws DateMalformedStringException
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
+     * @throws TmdbApiException
      */
     public function discoverMovies(DiscoverFilter $filter): ResultDto
     {
         $data = $this->queryApi($filter, $this->discoverPath);
 
-        $genres = $this->genreRepository->getGenres();
-
         $data['results'] = array_map(
-            function (array $movie) use ($genres) {
-                $genresData = array_intersect_key($genres, array_flip($movie['genre_ids']));
-                return MovieResultDto::fromArray($movie, array_values($genresData));
-            },
-            $data['results']
+            fn(array $movie) => $this->movieResultDtoFactory->createFromTmdb($movie),
+            $data['results'] ?? []
         );
 
-        return ResultDto::fromArray($data);
+        return $this->serializer->denormalize($data, ResultDto::class);
     }
 
     /**
-     * @param FilterInterface $filter
-     * @param string $path
-     * @param array $pathParams
-     * @return array
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
+     * @throws TmdbApiException
      */
     private function queryApi(FilterInterface $filter, string $path, array $pathParams = []): array
     {
-        $response = $this->client->request(
-            'GET',
-            $this->url . sprintf($path, ...$pathParams),
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token,
-                    'accept' => 'application/json',
-                ],
-                'query' => $filter->toArray(),
-            ]
-        );
-
         try {
+            $queryParams = $this->serializer->normalize($filter, null, ['skip_null_values' => true]);
+
+            $response = $this->client->request(
+                'GET',
+                $this->url . sprintf($path, ...$pathParams),
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->token,
+                        'accept' => 'application/json',
+                    ],
+                    'query' => $queryParams,
+                ]
+            );
+
             return $response->toArray();
-        } catch (ClientException $e) {
-            if ($response->getStatusCode() === 404) {
+        } catch (ClientExceptionInterface $e) {
+            if ($e->getResponse()->getStatusCode() === 404) {
                 throw new NotFoundHttpException('Resource not found on TMDB', $e);
             }
-
-            throw $e;
+            throw new TmdbApiException($e->getMessage(), $e->getCode(), $e);
+        } catch (Throwable $e) {
+            throw new TmdbApiException($e->getMessage(), (int)$e->getCode(), $e);
         }
     }
 }
