@@ -20,25 +20,33 @@
     {% endif %}
 </div>
 
-<div class="flex flex-wrap gap-4 mb-4 text-md justify-center sm:justify-start">
+<div class="flex flex-wrap gap-4 mb-4 text-md justify-center sm:justify-start align-center">
 
     {# IMDb rating #}
     {% if movie.status is same as 'Released' and movie.imdbId %}
         <a href="https://www.imdb.com/title/{{ movie.imdbId }}" target="_blank">
-            <div class="flex flex-col items-center">
-                <div
-                    class="flex items-center bg-yellow-500 text-black font-bold px-3 py-1 rounded-full">
-                    IMDb:
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    <div id="imdb-rating-{{ imdb_location|default('mobile') }}">
-                        0.0
+            <div>
+                <div class="font-bold text-[.9rem] text-center">IMDb RATING</div>
+                <div class="flex justify-center">
+                    <div class="flex flex-col justify-center">
+                        <svg class="text-amber-400 w-11 h-11 mr-1"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
                     </div>
-                </div>
-                <div class="mt-1">
-                    <span id="imdb-votes-{{ imdb_location|default('mobile') }}">&nbsp;</span>
+                    <div>
+                        <div class="text-[1.15rem]">
+                            <div class="flex">
+                                <div class="font-bold text-white"
+                                       id="imdb-rating-{{ imdb_location|default('mobile') }}">0.0</div>
+                                <div>/10</div>
+                            </div>
+                        </div>
+                        <div class="text-sm">
+                            <span id="imdb-votes-{{ imdb_location|default('mobile') }}">&nbsp;</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>
@@ -47,26 +55,35 @@
     {# TMDb rating #}
     {% if movie.voteAverage > 0 %}
         <a href="https://www.themoviedb.org/movie/{{ movie.id }}" target="_blank">
-            <div class="flex flex-col items-center">
-                <div
-                    class="flex items-center bg-blue-700 text-white font-bold px-3 py-1 rounded-full">
-                    TMDb:
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    {{ movie.voteAverage|number_format(1) }}
-                </div>
-                <div class="mt-1">
-                    {{ movie.voteCount }} {{ 'rating.votes'|trans }}
+            <div>
+                <div class="font-bold text-[.9rem] text-center">TMDb RATING</div>
+                <div class="flex justify-center">
+                    <div class="flex flex-col justify-center">
+                        <svg class="text-blue-600 w-11 h-11 mr-1"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-[1.15rem]">
+                            <div><span class="font-bold text-white">{{ movie.voteAverage|number_format(1) }}</span>/10
+                            </div>
+                        </div>
+                        <div class="text-sm">
+                            {{ movie.voteCount|shorten }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>
     {% endif %}
 
+
     {# runtime #}
     {% if movie.runtime > 0 %}
-        <span class="text-gray-200">{{ movie.runtime }} {{ 'movie.length_minutes'|trans }}</span>
+        <div
+            class="text-gray-200 flex items-center text-l font-bold">{{ movie.runtime }} {{ 'movie.length_minutes'|trans }}</div>
     {% endif %}
 </div>
 

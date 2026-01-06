@@ -2,7 +2,7 @@
     {% if rating.rating is not null %}
         <turbo-stream action="replace" target="imdb-rating-mobile">
             <template>
-                <div id="imdb-rating-mobile"
+                <div id="imdb-rating-mobile" class="font-bold text-white min-w-[30px]"
                      data-controller="count-up"
                      data-count-up-duration-value="500"
                      data-count-up-number-value="{{ rating.rating }}">
@@ -13,18 +13,16 @@
 
         <turbo-stream action="replace" target="imdb-votes-mobile">
             <template>
-                <span id="imdb-votes-mobile">
-                    {{ rating.ratingCount }}
-                </span> {{ 'rating.votes'|trans }}
+                <span id="imdb-votes-mobile">{{ rating.ratingCount|shorten }}</span>
             </template>
         </turbo-stream>
 
         <turbo-stream action="replace" target="imdb-rating-sm">
             <template>
-                <div id="imdb-rating-sm"
-                     data-controller="count-up"
-                     data-count-up-duration-value="500"
-                     data-count-up-number-value="{{ rating.rating }}">
+                <div id="imdb-rating-sm" class="font-bold text-white min-w-[30px]"
+                      data-controller="count-up"
+                      data-count-up-duration-value="500"
+                      data-count-up-number-value="{{ rating.rating }}">
                     0.0
                 </div>
             </template>
@@ -32,9 +30,7 @@
 
         <turbo-stream action="replace" target="imdb-votes-sm">
             <template>
-                <span id="imdb-votes-sm">
-                    {{ rating.ratingCount }}
-                </span> {{ 'rating.votes'|trans }}
+                <span id="imdb-votes-sm">{{ rating.ratingCount|shorten }}</span>
             </template>
         </turbo-stream>
     {% endif %}
