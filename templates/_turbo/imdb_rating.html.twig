@@ -15,7 +15,7 @@
             <template>
                 <span id="imdb-votes-mobile">
                     {{ rating.ratingCount }}
-                </span>
+                </span> {{ 'rating.votes'|trans }}
             </template>
         </turbo-stream>
 
@@ -34,7 +34,7 @@
             <template>
                 <span id="imdb-votes-sm">
                     {{ rating.ratingCount }}
-                </span>
+                </span> {{ 'rating.votes'|trans }}
             </template>
         </turbo-stream>
     {% endif %}

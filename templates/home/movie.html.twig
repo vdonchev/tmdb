@@ -156,7 +156,7 @@
                 <div class="mt-3">
                     <button
                         onclick="history.back()"
-                        class="flex cursor-pointer text-white rounded bg-pink-800 px-3 py-1"
+                        class="flex cursor-pointer"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -172,7 +172,7 @@
         </div>
     </div>
 
-    {% if movie.status is same as 'Released' and movie.imdbId is not null and movie.voteAverage != 0 %}
+    {% if movie.status is same as 'Released' and movie.imdbId is not null %}
         <turbo-frame id="imdb-id" src="{{ path('app_imdb', {'id': movie.imdbId}) }}">
         </turbo-frame>
     {% endif %}

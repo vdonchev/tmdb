@@ -38,7 +38,7 @@ class DiscoverFilterFactory
     /**
      * @throws DateMalformedStringException
      */
-    public function fromList(ListType $list, int $page, int $interval = 30, bool $includeAdult = false): DiscoverFilter
+    public function fromList(ListType $list, int $page, int $interval = 180, bool $includeAdult = false): DiscoverFilter
     {
         $fromTo = match ($list) {
             ListType::Upcoming => [
