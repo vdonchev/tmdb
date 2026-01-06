@@ -7,8 +7,12 @@ use Twig\Attribute\AsTwigFilter;
 class AppExtension
 {
     #[AsTwigFilter('shorten')]
-    public function shortenRatingVotesCount(float $number): string
+    public function shortenRatingVotesCount(?float $number): string
     {
+        if ($number === null) {
+            return '0';
+        }
+
         if ($number < 1000) {
             return $number;
         }
