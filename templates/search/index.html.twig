@@ -5,8 +5,8 @@
     <div class="mb-5 border-b border-white/5 pb-5">
         {% include '_partials/paginator.html.twig'
             with { 'paginator_id': 'paginator-header',
-            'prev_path': path('app_search_index', { 'page': page - 1 }),
-            'next_path': path('app_search_index', { 'page': page + 1 }) } %}
+            'prev_path': path('app_search_index', { 'page': page - 1, 'query': query }),
+            'next_path': path('app_search_index', { 'page': page + 1, 'query': query }) } %}
     </div>
 
     <turbo-frame id="search-result" data-turbo-action="advance"
@@ -91,8 +91,8 @@
             <template>
                 {% include '_partials/paginator.html.twig'
                     with { 'paginator_id': 'paginator-header',
-                    'prev_path': path('app_search_index', { 'page': page - 1 }),
-                    'next_path': path('app_search_index', { 'page': page + 1 }) } %}
+                    'prev_path': path('app_search_index', { 'page': page - 1, 'query': query }),
+                    'next_path': path('app_search_index', { 'page': page + 1, 'query': query }) } %}
             </template>
         </turbo-stream>
 
@@ -100,8 +100,8 @@
             <template>
                 {% include '_partials/paginator.html.twig'
                     with { 'paginator_id': 'paginator-footer',
-                    'prev_path': path('app_search_index', { 'page': page - 1 }),
-                    'next_path': path('app_search_index', { 'page': page + 1 }) } %}
+                    'prev_path': path('app_search_index', { 'page': page - 1, 'query': query }),
+                    'next_path': path('app_search_index', { 'page': page + 1, 'query': query }) } %}
             </template>
         </turbo-stream>
 
@@ -110,8 +110,8 @@
     <div class="mt-5 border-t border-white/5 pt-5">
         {% include '_partials/paginator.html.twig'
             with { 'paginator_id': 'paginator-footer',
-            'prev_path': path('app_search_index', { 'page': page - 1 }),
-            'next_path': path('app_search_index', { 'page': page + 1 }) } %}
+            'prev_path': path('app_search_index', { 'page': page - 1, 'query': query }),
+            'next_path': path('app_search_index', { 'page': page + 1, 'query': query }) } %}
     </div>
 
 {% endblock %}
