@@ -4,7 +4,7 @@ turbo:
 menu:
     upcoming: 'Upcoming'
     trending: 'Trending'
-    seaerch: 'Search'
+    search: 'Search'
 
 paginator:
     prev: 'Previous'

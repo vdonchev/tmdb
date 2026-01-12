@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(path: ['bg' => '', 'en' => '/en'])]
 class SearchController extends AbstractController
 {
     /**
