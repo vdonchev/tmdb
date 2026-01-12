@@ -13,6 +13,7 @@ use App\Filter\CreditsFilter;
 use App\Filter\DiscoverFilter;
 use App\Filter\FilterInterface;
 use App\Filter\MovieFilter;
+use App\Filter\SearchFilter;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -35,6 +36,7 @@ final readonly class TmdbService
         #[Autowire('%env(TMDB_API_PATH_DISCOVER)%')] private string $discoverPath,
         #[Autowire('%env(TMDB_API_PATH_MOVIE)%')] private string $moviePath,
         #[Autowire('%env(TMDB_API_PATH_CREDITS)%')] private string $creditsPath,
+        #[Autowire('%env(TMDB_API_PATH_SEARCH)%')] private string $searchPath,
     ) {
     }
 
@@ -66,6 +68,21 @@ final readonly class TmdbService
     public function discoverMovies(DiscoverFilter $filter): ResultDto
     {
         $data = $this->queryApi($filter, $this->discoverPath);
+
+        $data['results'] = array_map(
+            fn(array $movie) => $this->movieResultDtoFactory->createFromTmdb($movie),
+            $data['results'] ?? []
+        );
+
+        return $this->serializer->denormalize($data, ResultDto::class);
+    }
+
+    /**
+     * @throws TmdbApiException
+     */
+    public function searchMovies(SearchFilter $filter): ResultDto
+    {
+        $data = $this->queryApi($filter, $this->searchPath);
 
         $data['results'] = array_map(
             fn(array $movie) => $this->movieResultDtoFactory->createFromTmdb($movie),

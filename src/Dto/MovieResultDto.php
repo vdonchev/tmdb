@@ -9,6 +9,9 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
 
 final class MovieResultDto
 {
+    #[SerializedName('release_date')]
+    public DateTimeImmutable $releaseDate;
+
     public function __construct(
         public bool $adult,
 
@@ -30,8 +33,6 @@ final class MovieResultDto
         #[SerializedName('poster_path')]
         public ?string $posterPath,
 
-        #[SerializedName('release_date')]
-        public DateTimeImmutable $releaseDate,
         public string $title,
         public bool $video,
 
@@ -46,27 +47,17 @@ final class MovieResultDto
     ) {
     }
 
-    /**
-     * @throws DateMalformedStringException
-     */
-    public static function fromArray(array $data, array $genres): self
+    public function setReleaseDate(string $date): void
     {
-        return new self(
-            adult: $data['adult'] ?? false,
-            backdropPath: $data['backdrop_path'] ?? null,
-            genreIds: $data['genre_ids'] ?? [],
-            id: (int)$data['id'],
-            originalLanguage: (string)($data['original_language'] ?? ''),
-            originalTitle: (string)($data['original_title'] ?? ''),
-            overview: (string)($data['overview'] ?? ''),
-            popularity: (float)($data['popularity'] ?? 0),
-            posterPath: $data['poster_path'] ?? null,
-            releaseDate: new DateTimeImmutable($data['release_date'] ?? ''),
-            title: (string)($data['title'] ?? ''),
-            video: (bool)($data['video'] ?? false),
-            voteAverage: (float)($data['vote_average'] ?? 0.0),
-            voteCount: (int)($data['vote_count'] ?? 0),
-            genres: $data = $genres,
-        );
+        try {
+            $this->releaseDate = new DateTimeImmutable($date);
+        } catch (DateMalformedStringException) {
+            $this->releaseDate = new DateTimeImmutable();
+        }
+    }
+
+    public function getReleaseDate(): DateTimeImmutable
+    {
+        return $this->releaseDate;
     }
 }

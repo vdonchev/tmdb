@@ -1,7 +1,6 @@
 <div class="flex flex-wrap items-center justify-center" id="{{ paginator_id|default('paginator') }}">
     {% if results.hasPreviousPage %}
-        <a href="{{ path('app_home', { 'list': list, 'page': page - 1 }) }}"
-{#           {% if paginator_id == 'paginator-header' %}data-turbo-preload{% endif %}#}
+        <a href="{{ prev_path }}"
            data-turbo-frame="titles"
            class="flex items-center me-3 text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -17,7 +16,7 @@
     {% endif %}
 
     {% if results.hasNextPage %}
-        <a href="{{ path('app_home', { 'list': list, 'page': page + 1 }) }}"
+        <a href="{{ next_path }}"
            {% if paginator_id == 'paginator-header' %}data-turbo-preload{% endif %}
            data-turbo-frame="titles"
            class="flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
@@ -34,6 +33,8 @@
         </a>
     {% endif %}
 
+    {% if results.hasNextPage or results.hasPreviousPage %}
     <div class="mt-4 sm:mt-0 text-center w-full sm:w-auto sm:border-l sm:pl-4 sm:ml-4 column border-gray-700">
         <b>{{ page }}</b> {{ 'paginator.of'|trans }} <b>{{ results.totalPages }}</b> {{ 'paginator.pages'|trans }}</div>
+    {% endif %}
 </div>

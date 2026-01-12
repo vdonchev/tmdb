@@ -8,6 +8,7 @@ use App\Dto\ResultDto;
 use App\Filter\CreditsFilter;
 use App\Filter\DiscoverFilter;
 use App\Filter\MovieFilter;
+use App\Filter\SearchFilter;
 use App\Service\TmdbService;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Attribute\Target;
@@ -58,6 +59,19 @@ final class TmdbRepository
             $item->expiresAfter(null);
 
             return $this->tmdbService->getMovieCredits($movieId, $filter);
+        });
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function searchMovies(string $query, SearchFilter $filter): ResultDto
+    {
+        $key = 'search_query' . $query;
+        return $this->cache->get($key, function (ItemInterface $item) use ($query, $filter) {
+            $item->expiresAfter(36000);
+
+            return $this->tmdbService->searchMovies($filter);
         });
     }
 }

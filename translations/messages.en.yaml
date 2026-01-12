@@ -4,6 +4,7 @@ turbo:
 menu:
     upcoming: 'Upcoming'
     trending: 'Trending'
+    seaerch: 'Search'
 
 paginator:
     prev: 'Previous'
@@ -57,3 +58,7 @@ action:
 
 trailer:
     searching: 'Looking for movie trailer...'
+
+search:
+    search: 'Sherlock Holmes'
+    submit: 'Search'

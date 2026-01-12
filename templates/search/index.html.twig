@@ -5,14 +5,33 @@
     <div class="mb-5 border-b border-white/5 pb-5">
         {% include '_partials/paginator.html.twig'
             with { 'paginator_id': 'paginator-header',
-            'prev_path': path('app_home', { 'list': list, 'page': page - 1 }),
-            'next_path': path('app_home', { 'list': list, 'page': page + 1 }) } %}
+            'prev_path': path('app_search_index', { 'page': page - 1 }),
+            'next_path': path('app_search_index', { 'page': page + 1 }) } %}
     </div>
 
-    <turbo-frame id="titles" data-turbo-action="advance"
+    <turbo-frame id="search-result" data-turbo-action="advance"
                  class="transition duration-500 ease-in-out aria-busy:blur-[5px]">
 
         <div class="">
+            <form class="max-w-xl mx-auto flex justify-center">
+                <div class="mb-5">
+                    <input type="text" id="text"
+                           name="query" value=""
+                           class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base
+                            focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                           placeholder="{{ query|default(('search.search')|trans) }}" required/>
+                </div>
+
+                <div>
+                    <button type="submit"
+                            class=" text-white bg-pink box-border border border-transparent hover:bg-pink-700 focus:ring-4
+                            focus:ring-offset-pink-200 cursor-pointer shadow-xs font-medium leading-5 rounded-base text-sm ms-2 px-5 py-2.5 focus:outline-none">
+                        {{ 'search.submit'|trans }}
+                    </button>
+                </div>
+            </form>
+
+
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 font-mono">
                 {# @var movie \App\Dto\MovieResultDto #}
                 {% for movie in results.results %}
@@ -20,7 +39,7 @@
                        data-turbo-frame="_top">
                         <div
                             class="relative group rounded overflow-hidden shadow-sm border border-gray-700 cursor-pointer">
-                            <div class="w-full overflow-hidden aspect-[2/3] bg-gray-800 relative">
+                            <div class="w-full overflow-hidden aspect-2/3 bg-gray-800 relative">
                                 {% if movie.posterPath is null %}
                                     <img src="{{ asset('images/no-poster-placeholder.png') }}" alt=""
                                          class="opacity-40 ">
@@ -72,8 +91,8 @@
             <template>
                 {% include '_partials/paginator.html.twig'
                     with { 'paginator_id': 'paginator-header',
-                    'prev_path': path('app_home', { 'list': list, 'page': page - 1 }),
-                    'next_path': path('app_home', { 'list': list, 'page': page + 1 }) } %}
+                    'prev_path': path('app_search_index', { 'page': page - 1 }),
+                    'next_path': path('app_search_index', { 'page': page + 1 }) } %}
             </template>
         </turbo-stream>
 
@@ -81,8 +100,8 @@
             <template>
                 {% include '_partials/paginator.html.twig'
                     with { 'paginator_id': 'paginator-footer',
-                    'prev_path': path('app_home', { 'list': list, 'page': page - 1 }),
-                    'next_path': path('app_home', { 'list': list, 'page': page + 1 }) } %}
+                    'prev_path': path('app_search_index', { 'page': page - 1 }),
+                    'next_path': path('app_search_index', { 'page': page + 1 }) } %}
             </template>
         </turbo-stream>
 
@@ -91,8 +110,8 @@
     <div class="mt-5 border-t border-white/5 pt-5">
         {% include '_partials/paginator.html.twig'
             with { 'paginator_id': 'paginator-footer',
-            'prev_path': path('app_home', { 'list': list, 'page': page - 1 }),
-            'next_path': path('app_home', { 'list': list, 'page': page + 1 }) } %}
+            'prev_path': path('app_search_index', { 'page': page - 1 }),
+            'next_path': path('app_search_index', { 'page': page + 1 }) } %}
     </div>
 
 {% endblock %}

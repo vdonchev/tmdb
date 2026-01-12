@@ -4,6 +4,7 @@ turbo:
 menu:
     upcoming: 'Предстоящи'
     trending: 'Популярни'
+    search: 'Търсене'
 
 paginator:
     prev: 'Предишна'
@@ -57,3 +58,7 @@ action:
 
 trailer:
     searching: 'Търсене на трейлър...'
+
+search:
+    search: 'Sherlock Holmes'
+    submit: 'Търси'
