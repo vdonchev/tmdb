@@ -10,7 +10,7 @@
         "doctrine/dbal": "^3.10.4",
         "doctrine/doctrine-bundle": "^2.18.2",
         "doctrine/doctrine-migrations-bundle": "^3.7",
-        "doctrine/orm": "^3.6.1",
+        "doctrine/orm": "^3.6.2",
         "phpdocumentor/reflection-docblock": "^5.6.6",
         "phpstan/phpdoc-parser": "^2.3.2",
         "symfony/asset": "7.4.*",
@@ -100,7 +100,7 @@
     },
     "require-dev": {
         "deployer/deployer": "^7.5.12",
-        "phpunit/phpunit": "^12.5.7",
+        "phpunit/phpunit": "^12.5.8",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
         "symfony/debug-bundle": "7.4.*",
