@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db937922f554e47e2e5b45506b28a76b",
+    "content-hash": "52402558de1952c47398a60e6600dcd1",
     "packages": [
         {
             "name": "composer/semver",
@@ -720,30 +720,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -770,7 +769,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -786,7 +785,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -8393,16 +8392,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.5.2",
+            "version": "12.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4a9739b51cbcb355f6e95659612f92e282a7077b"
+                "reference": "b015312f28dd75b75d3422ca37dff2cd1a565e8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4a9739b51cbcb355f6e95659612f92e282a7077b",
-                "reference": "4a9739b51cbcb355f6e95659612f92e282a7077b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b015312f28dd75b75d3422ca37dff2cd1a565e8d",
+                "reference": "b015312f28dd75b75d3422ca37dff2cd1a565e8d",
                 "shasum": ""
             },
             "require": {
@@ -8458,7 +8457,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.2"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.3"
             },
             "funding": [
                 {
@@ -8478,20 +8477,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-24T07:03:04+00:00"
+            "time": "2026-02-06T06:01:44+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "961bc913d42fe24a257bfff826a5068079ac7782"
+                "reference": "3d1cd096ef6bea4bf2762ba586e35dbd317cbfd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/961bc913d42fe24a257bfff826a5068079ac7782",
-                "reference": "961bc913d42fe24a257bfff826a5068079ac7782",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/3d1cd096ef6bea4bf2762ba586e35dbd317cbfd5",
+                "reference": "3d1cd096ef6bea4bf2762ba586e35dbd317cbfd5",
                 "shasum": ""
             },
             "require": {
@@ -8531,15 +8530,27 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
                 "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/6.0.0"
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/6.0.1"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpunit/php-file-iterator",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2025-02-07T04:58:37+00:00"
+            "time": "2026-02-02T14:04:18+00:00"
         },
         {
             "name": "phpunit/php-invoker",
@@ -8727,16 +8738,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.8",
+            "version": "12.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "37ddb96c14bfee10304825edbb7e66d341ec6889"
+                "reference": "83d4c158526c879b4c5cf7149d27958b6d912373"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/37ddb96c14bfee10304825edbb7e66d341ec6889",
-                "reference": "37ddb96c14bfee10304825edbb7e66d341ec6889",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83d4c158526c879b4c5cf7149d27958b6d912373",
+                "reference": "83d4c158526c879b4c5cf7149d27958b6d912373",
                 "shasum": ""
             },
             "require": {
@@ -8751,7 +8762,7 @@
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
                 "phpunit/php-code-coverage": "^12.5.2",
-                "phpunit/php-file-iterator": "^6.0.0",
+                "phpunit/php-file-iterator": "^6.0.1",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
@@ -8762,6 +8773,7 @@
                 "sebastian/exporter": "^7.0.2",
                 "sebastian/global-state": "^8.0.2",
                 "sebastian/object-enumerator": "^7.0.0",
+                "sebastian/recursion-context": "^7.0.1",
                 "sebastian/type": "^6.0.3",
                 "sebastian/version": "^6.0.0",
                 "staabm/side-effects-detector": "^1.0.5"
@@ -8804,7 +8816,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.9"
             },
             "funding": [
                 {
@@ -8828,7 +8840,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-27T06:12:29+00:00"
+            "time": "2026-02-05T08:01:09+00:00"
         },
         {
             "name": "sebastian/cli-parser",
