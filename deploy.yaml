@@ -6,6 +6,7 @@ config:
     repository: git@github.com:vdonchev/tmdb.git
     branch: master
     keep_releases: 3
+    bin/php: /usr/bin/php8.4
     allow_anonymous_stats: false
     ssh_multiplexing: true
     ssh_options:
@@ -16,7 +17,6 @@ config:
 
     shared_dirs:
         - var/log
-        - var/cache
 
     writable_dirs:
         - var
@@ -32,13 +32,14 @@ hosts:
 
 tasks:
     php-fpm:reload:
-        - run: 'sudo systemctl reload php8.3-fpm.service'
+        - run: 'sudo systemctl reload php8.4-fpm.service'
 
     database:migrate:
         - run: '{{ bin/console }} doctrine:migrations:migrate --no-interaction'
 
-    clear:pool-cache:
+    clear:cache:
         - run: '{{ bin/console }} cache:pool:clear tv.cache --no-interaction'
+        - run: '{{ bin/console }} cache:clear --no-interaction'
 
     assets:install_and_compile:
         - run: '{{ bin/console }} importmap:install'
@@ -54,6 +55,6 @@ before:
 
 after:
     deploy:symlink:
-        - clear:pool-cache
+        - clear:cache
         - php-fpm:reload
     deploy:failed: deploy:unlock
