@@ -17,6 +17,7 @@ config:
 
     shared_dirs:
         - var/log
+        - var/cache
 
     writable_dirs:
         - var
