@@ -32,8 +32,8 @@ final readonly class ImdbScrapper
 
             $response = $this->client->request('GET', $url, [
                 'headers' => [
-                    'User-Agent' => 'Googlebot/2.1 (+http://www.google.com/bot.html)',
-                    'Referer' => 'https://google.com',
+                    'User-Agent' => 'Mozilla/5.0 (compatible; AmazonAdBot/1.0; +https://adbot.amazon.com)',
+//                    'Referer' => 'https://google.com',
                     'Accept' => 'text/html',
                     'Accept-Language' => 'en-US,en;q=0.9',
                 ]
