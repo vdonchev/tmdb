@@ -6,7 +6,7 @@ config:
     repository: git@github.com:vdonchev/tmdb.git
     branch: master
     keep_releases: 3
-    bin/php: /usr/bin/php8.4
+    bin/php: /usr/bin/php8.5
     allow_anonymous_stats: false
     ssh_multiplexing: true
     ssh_options:
@@ -33,7 +33,7 @@ hosts:
 
 tasks:
     php-fpm:reload:
-        - run: 'sudo systemctl reload php8.4-fpm.service'
+        - run: 'sudo systemctl reload php8.5-fpm.service'
 
     database:migrate:
         - run: '{{ bin/console }} doctrine:migrations:migrate --no-interaction'
