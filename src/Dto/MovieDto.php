@@ -3,8 +3,10 @@
 namespace App\Dto;
 
 use DateTimeImmutable;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Serializer\Attribute\SerializedName;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 final class MovieDto
 {
@@ -35,6 +37,7 @@ final class MovieDto
         public ?string $posterPath,
 
         #[SerializedName('release_date')]
+        #[Context(denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
         public ?DateTimeImmutable $releaseDate,
         public int $revenue,
         public int $runtime,
